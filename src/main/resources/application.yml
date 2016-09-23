@@ -1,0 +1,12 @@
+banner.location: logo
+spring:
+  jmx.enabled: false
+  output:
+    ansi:
+      enabled: always
+  redis:
+    cluster:
+      nodes: 10.3.104.33:7000,10.3.104.33:7001,10.3.104.33:7002
+      timeout: 2000
+      max-redirects: 8
+server.port: 8081

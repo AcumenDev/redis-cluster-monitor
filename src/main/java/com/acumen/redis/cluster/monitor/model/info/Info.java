@@ -1,0 +1,88 @@
+package com.acumen.redis.cluster.monitor.model.info;
+
+
+import com.acumen.redis.cluster.monitor.model.info.detail.*;
+
+public class Info {
+    private Server server;
+    private Clients clients;
+    private Memory memory;
+    private Persistence persistence;
+    private Stats stats;
+    private Replication replication;
+    private CPU cpu;
+    private Cluster cluster;
+    private Keyspace keyspace;
+
+    public Server getServer() {
+        return server;
+    }
+
+    public void setServer(Server server) {
+        this.server = server;
+    }
+
+    public Clients getClients() {
+        return clients;
+    }
+
+    public void setClients(Clients clients) {
+        this.clients = clients;
+    }
+
+    public Memory getMemory() {
+        return memory;
+    }
+
+    public void setMemory(Memory memory) {
+        this.memory = memory;
+    }
+
+    public Persistence getPersistence() {
+        return persistence;
+    }
+
+    public void setPersistence(Persistence persistence) {
+        this.persistence = persistence;
+    }
+
+    public Stats getStats() {
+        return stats;
+    }
+
+    public void setStats(Stats stats) {
+        this.stats = stats;
+    }
+
+    public Replication getReplication() {
+        return replication;
+    }
+
+    public void setReplication(Replication replication) {
+        this.replication = replication;
+    }
+
+    public CPU getCpu() {
+        return cpu;
+    }
+
+    public void setCpu(CPU cpu) {
+        this.cpu = cpu;
+    }
+
+    public Cluster getCluster() {
+        return cluster;
+    }
+
+    public void setCluster(Cluster cluster) {
+        this.cluster = cluster;
+    }
+
+    public Keyspace getKeyspace() {
+        return keyspace;
+    }
+
+    public void setKeyspace(Keyspace keyspace) {
+        this.keyspace = keyspace;
+    }
+}
