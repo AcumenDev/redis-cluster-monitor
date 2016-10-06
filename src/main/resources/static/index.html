@@ -86,10 +86,10 @@
         }
 
         function loadCluster() {
-            $.getJSON("/monitor/cluster/info", function (data) {
+            $.getJSON("/cluster/info", function (data) {
                 $("#info").fillTable(data);  //fill single table
             });
-            $.getJSON("/monitor/cluster/nodes", function (data) {
+            $.getJSON("/cluster/nodes", function (data) {
                 //1. create tr td for data
                 for (var i = 0; i < data.length - 1; i++) {
                     var $node = $(".nodeData" + i).clone();
@@ -108,7 +108,7 @@
         }
 
         function loadNode() {
-            $.getJSON("/monitor/cluster/master", function (data) {
+            $.getJSON("/cluster/master", function (data) {
                 var options = "";
                 $.each(data, function (index, value) {
                     options += '<option>' + value.host + ":" + value.port + '</option>';
@@ -123,7 +123,7 @@
         }
 
         function fillNodeData(hostPort) {
-            var uri = "/monitor/" + hostPort + "/info";
+            var uri = "/" + hostPort + "/info";
             $.getJSON(uri, function (data) {
                 $("#memory").fillTable(data.memory);  //fill memory
                 $("#cpu").fillTable(data.cpu);  //fill cpu
