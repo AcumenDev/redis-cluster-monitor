@@ -4,7 +4,6 @@ package com.acumen.redis.cluster.monitor.cluster;
 import com.acumen.redis.cluster.monitor.model.cluster.node.Node;
 import com.acumen.redis.cluster.monitor.model.cluster.slot.Slot;
 import com.acumen.redis.cluster.monitor.model.info.Info;
-import com.acumen.redis.cluster.monitor.util.context.RuntimeContainer;
 import com.acumen.redis.cluster.monitor.util.convert.AppConverters;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,29 +30,29 @@ public class ClusterServiceImpl implements ClusterService {
     JedisClusterConnection clusterConnection;
 
     @Override
-    public void info() {
+    public ClusterInfo info() {
         ClusterInfo info = clusterConnection.clusterGetClusterInfo();
         logger.info(info);
-        RuntimeContainer.setRetMessage(info);
+        return info;
     }
 
     @Override
-    public void slots() {
+    public Set<Slot> slots() {
         Set<RedisClusterNode> clusterNodes = clusterConnection.clusterGetNodes();
         logger.info(clusterNodes);
         Set<Slot> slots = AppConverters.toSetOfSlot().convert(clusterNodes);
-        RuntimeContainer.setRetMessage(slots);
+      return slots;
     }
 
     @Override
-    public void nodes() {
+    public List<Node> nodes() {
         Set<RedisClusterNode> clusterNodes = clusterConnection.clusterGetNodes();
         logger.info(sortNodes(clusterNodes));
-        RuntimeContainer.setRetMessage(sortNodes(clusterNodes));
+        return sortNodes(clusterNodes);
     }
 
     @Override
-    public void nodesInfo() {
+    public Map<String, Info> nodesInfo() {
         Map<String, Info> infos = new HashMap<String, Info>();
         Properties prop = clusterConnection.info();
         logger.info(prop);
@@ -66,22 +65,22 @@ public class ClusterServiceImpl implements ClusterService {
             infos.put(String.valueOf(key), info);
         }
 
-        RuntimeContainer.setRetMessage(infos);
+       return infos;
     }
 
     @Override
-    public void nodeInfo(String node) {
+    public Info nodeInfo(String node) {
         Properties prop = clusterConnection.info(create(node));
         Info info = AppConverters.toInfo().convert(prop);
-        RuntimeContainer.setRetMessage(info);
+        return info;
     }
 
     @Override
-    public void activeMasters() {
+    public Set<Node> activeMasters() {
         Set<RedisClusterNode> clusterNodes = clusterConnection.clusterGetNodes();
         Set<Node> nodes = AppConverters.toSetOfNode().convert(getActiveMasterNodes(clusterNodes));
         logger.info(nodes);
-        RuntimeContainer.setRetMessage(nodes);
+        return nodes;
     }
 
     private RedisClusterNode create(String node) {
