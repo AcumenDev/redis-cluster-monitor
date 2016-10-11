@@ -2,9 +2,9 @@
  * Created by vstalmakov on 10.10.16.
  */
 $(function () {
-    $("#content").load("cluster.html");
-    loadCluster();
-
+    //  $("#content").load("cluster.html");
+    //   loadCluster();
+    loadInfo();
     $('header a').click(function (index, value) {
         var id = $(this).attr('id');
         var showElement = id.replace("Nav", ".html");
@@ -23,7 +23,24 @@ $(function () {
             loadCmd();
     }
 
+
+    function loadInfo() {
+        //  $("#info").load("cluster.html");
+        //  var infoSource = $("#info").html();
+        var template = Handlebars.compile($("#info").html());
+
+        $.getJSON("/cluster/info", function (value) {
+            $("#info").html(template(value));  //fill single table
+        });
+        //   var html    = template(context);
+
+        setTimeout(loadInfo, 10000);
+    }
+
+
     function loadCluster() {
+
+        // console.log("loadCluster");
         $.getJSON("/cluster/info", function (data) {
             $("#info").fillTable(data);  //fill single table
         });
@@ -43,6 +60,7 @@ $(function () {
                 $(".nodeData" + index).fillTable(value, options);
             });
         });
+        // setTimeout(loadCluster, 15000);
     }
 
     function loadNode() {
@@ -80,15 +98,4 @@ $(function () {
             }
         });
     }
-
-    function loadChart() {
-
-    }
-
-    function loadCmd() {
-
-    }
-
-    setTimeout(loadCluster, 1000);
-
 });
