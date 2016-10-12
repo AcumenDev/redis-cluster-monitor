@@ -11,6 +11,7 @@
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/index.css">
     <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="lib/handlebars/handlebars.min.js"></script>
@@ -27,11 +28,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="#" class="navbar-brand" id="clusterNav">Redis Cluster</a>
+                <a href="" class="navbar-brand" id="clusterNav">Redis Cluster</a>
             </div>
             <div class="collapse navbar-collapse" id="example-nav-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#" id="nodeNav">Node</a></li>
+                    <li><a href="node.html" id="nodeNav">Node</a></li>
                     <!--<li><a href="#" id="chartNav">Chart</a></li>-->
                     <!--<li><a href="#" id="cmdNav">Cmd</a></li>-->
                 </ul>
@@ -51,9 +52,28 @@
 </header>
 
 <div class="container" id="content">
+    <div id="info" class="container">
+    </div>
+
+    <div id="nodes" class="container">
+    </div>
+
+</div>
+
+<footer>
+    <div class="container">
+        <hr>
+        <p>
+            <small></small>
+        </p>
+    </div> <!-- end container -->
+</footer>
+
+
+<script id="info-blank" type="text/x-handlebars-template">
     <div class="panel panel-default panel-info">
         <div class="table-responsive">
-            <table class="table table-hover table-info" id="info">
+            <table class="table table-hover table-info">
                 <tr>
                     <th>state</th>
                     <th>currentEpoch</th>
@@ -81,17 +101,34 @@
             </table>
         </div>
     </div>
-</div>
-</div>
+    </div>
+</script>
 
-<footer>
-    <div class="container">
-        <hr>
-        <p>
-            <small></small>
-        </p>
-    </div> <!-- end container -->
-</footer>
+<script id="nodes-blank" type="text/x-handlebars-template">
+    <div class="table-responsive">
 
+        <table class="table table-hover table-info">
+            <tr>
+                <th>nodeType</th>
+                <th>host</th>
+                <th>port</th>
+                <th>slotRange</th>
+                <th>master</th>
+                <th>id</th>
+            </tr>
+
+            {{#each nodes}}
+            <tr class="nodeData">
+                <td class="type">{{type}}</td>
+                <td class="host">{{host}}</td>
+                <td class="port">{{port}}</td>
+                <td class="range">{{range}}</td>
+                <td class="masterHostPort">{{masterHostPort}}</td>
+                <td class="id">{{id}}</td>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
+</script>
 </body>
 </html>

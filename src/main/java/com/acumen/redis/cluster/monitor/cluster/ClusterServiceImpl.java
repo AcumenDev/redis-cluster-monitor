@@ -1,6 +1,7 @@
 package com.acumen.redis.cluster.monitor.cluster;
 
 
+import com.acumen.redis.cluster.monitor.model.Nodes;
 import com.acumen.redis.cluster.monitor.model.cluster.node.Node;
 import com.acumen.redis.cluster.monitor.model.cluster.slot.Slot;
 import com.acumen.redis.cluster.monitor.model.info.Info;
@@ -45,10 +46,10 @@ public class ClusterServiceImpl implements ClusterService {
     }
 
     @Override
-    public List<Node> nodes() {
+    public Nodes nodes() {
         Set<RedisClusterNode> clusterNodes = clusterConnection.clusterGetNodes();
         logger.info(sortNodes(clusterNodes));
-        return sortNodes(clusterNodes);
+        return new Nodes().setNodes(sortNodes(clusterNodes));
     }
 
     @Override

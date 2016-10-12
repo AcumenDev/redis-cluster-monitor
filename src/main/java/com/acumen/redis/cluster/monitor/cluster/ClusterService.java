@@ -1,11 +1,11 @@
 package com.acumen.redis.cluster.monitor.cluster;
 
+import com.acumen.redis.cluster.monitor.model.Nodes;
 import com.acumen.redis.cluster.monitor.model.cluster.node.Node;
 import com.acumen.redis.cluster.monitor.model.cluster.slot.Slot;
 import com.acumen.redis.cluster.monitor.model.info.Info;
 import org.springframework.data.redis.connection.ClusterInfo;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,7 +15,7 @@ public interface ClusterService {
 
     Set<Slot> slots();
 
-    List<Node> nodes();
+    Nodes nodes();
 
     Set<Node> activeMasters();
 

@@ -4,7 +4,15 @@
 $(function () {
     //  $("#content").load("cluster.html");
     //   loadCluster();
-    loadInfo();
+    
+    refreshInfo();
+
+    function refreshInfo() {
+        loadInfo();
+        loadNodes();
+        setTimeout(loadInfo, 10000);
+    }
+
     $('header a').click(function (index, value) {
         var id = $(this).attr('id');
         var showElement = id.replace("Nav", ".html");
@@ -23,44 +31,21 @@ $(function () {
             loadCmd();
     }
 
-
     function loadInfo() {
-        //  $("#info").load("cluster.html");
-        //  var infoSource = $("#info").html();
-        var template = Handlebars.compile($("#info").html());
-
+        var template = Handlebars.compile($("#info-blank").html());
         $.getJSON("/cluster/info", function (value) {
             $("#info").html(template(value));  //fill single table
         });
-        //   var html    = template(context);
 
-        setTimeout(loadInfo, 10000);
     }
 
-
-    function loadCluster() {
-
-        // console.log("loadCluster");
-        $.getJSON("/cluster/info", function (data) {
-            $("#info").fillTable(data);  //fill single table
+    function loadNodes() {
+        var template = Handlebars.compile($("#nodes-blank").html());
+        $.getJSON("/cluster/nodes", function (value) {
+            $("#nodes").html(template(value));
         });
-        $.getJSON("/cluster/nodes", function (data) {
-            //1. create tr td for data
-            for (var i = 0; i < data.length - 1; i++) {
-                var $node = $(".nodeData" + i).clone();
-                $node.removeClass().addClass("nodeData" + (i + 1));
-                $node.appendTo($("#nodes"));
-            }
-            //2. fill td data
-            var options = {
-                findby: "class",
-                restrict: true
-            };
-            $.each(data, function (index, value) {
-                $(".nodeData" + index).fillTable(value, options);
-            });
-        });
-        // setTimeout(loadCluster, 15000);
+
+
     }
 
     function loadNode() {
