@@ -29,7 +29,7 @@ repositories {
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile("org.springframework.boot:spring-boot-devtools")
-	compile ('org.springframework.data:spring-data-redis')
+	compile('org.springframework.data:spring-data-redis')
 	compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

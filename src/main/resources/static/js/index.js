@@ -2,33 +2,12 @@
  * Created by vstalmakov on 10.10.16.
  */
 $(function () {
-    //  $("#content").load("cluster.html");
-    //   loadCluster();
-    
     refreshInfo();
 
     function refreshInfo() {
         loadInfo();
         loadNodes();
-        setTimeout(loadInfo, 10000);
-    }
-
-    $('header a').click(function (index, value) {
-        var id = $(this).attr('id');
-        var showElement = id.replace("Nav", ".html");
-        includeHtml(showElement);
-    });
-    function includeHtml(showElement) {
-        $("#content").load(showElement);
-        //load data
-        if (showElement.indexOf("node") > -1)
-            loadNode();
-        else if (showElement.indexOf("cluster") > -1)
-            loadCluster();
-        else if (showElement.indexOf("chart") > -1)
-            loadChart();
-        else
-            loadCmd();
+        setTimeout(refreshInfo, 5000);
     }
 
     function loadInfo() {
@@ -36,7 +15,6 @@ $(function () {
         $.getJSON("/cluster/info", function (value) {
             $("#info").html(template(value));  //fill single table
         });
-
     }
 
     function loadNodes() {
@@ -44,8 +22,6 @@ $(function () {
         $.getJSON("/cluster/nodes", function (value) {
             $("#nodes").html(template(value));
         });
-
-
     }
 
     function loadNode() {

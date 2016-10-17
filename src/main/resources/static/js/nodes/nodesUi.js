@@ -6,12 +6,20 @@ var nodesUi = {
     init: function () {
         nodesUi.nodesSelect = $("#nodesAdress");
         nodesUi.nodesSelect.change(function () {
-            $("select option:selected").each(function () {
-                nodesUi.loadNode($(this).text());
-            });
+            nodesUi.loadNode();
         }).change();
 
         nodesUi.loadListNodes();
+        nodesUi.refreshInfo();
+    },
+
+    refreshInfo: function () {
+        nodesUi.loadNode();
+        setTimeout(nodesUi.refreshInfo, 1000);
+    },
+
+    getSelectNode: function () {
+        return $(nodesUi.nodesSelect).find("option:selected").text()
     },
 
     loadListNodes: function () {
@@ -28,16 +36,20 @@ var nodesUi = {
 
             if (data.nodes.length > 0) {
                 var name = data.nodes[0].host + ":" + data.nodes[0].port;
-                nodesUi.loadNode(name);
+                nodesUi.loadNode();
+                // nodesUi.getSelectNode()
+
             }
         });
     },
 
-    loadNode: function (nodeAdress) {
-        var template = Handlebars.compile($("#node-info-blank").html());
-        $.getJSON("/" + nodeAdress + "/info", function (value) {
-            $("#node-info").html(template(value));
-        });
+    loadNode: function () {
+        var selectNode = nodesUi.getSelectNode();
+        if (selectNode != "") {
+            var template = Handlebars.compile($("#node-info-blank").html());
+            $.getJSON("/" + selectNode + "/info", function (value) {
+                $("#node-info").html(template(value));
+            });
+        }
     }
-
 };
