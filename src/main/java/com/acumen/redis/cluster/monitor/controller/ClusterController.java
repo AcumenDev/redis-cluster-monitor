@@ -1,18 +1,12 @@
 package com.acumen.redis.cluster.monitor.controller;
 
-
 import com.acumen.redis.cluster.monitor.cluster.ClusterService;
-import com.acumen.redis.cluster.monitor.util.context.RuntimeContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @author zhengfc
- *         TODO: ExceptionHandle
- */
 @RestController
 public class ClusterController {
     @Autowired
@@ -20,37 +14,31 @@ public class ClusterController {
 
     @RequestMapping(value = "/cluster/info", method = RequestMethod.GET)
     public Object clusterInfo() {
-        clusterService.info();
-        return RuntimeContainer.getRetMessage();
+        return clusterService.info();
     }
 
     @RequestMapping(value = "/cluster/nodes", method = RequestMethod.GET)
     public Object clusterNodes() {
-        clusterService.nodes();
-        return RuntimeContainer.getRetMessage();
+        return clusterService.nodes();
     }
 
     @RequestMapping(value = "/cluster/slots", method = RequestMethod.GET)
     public Object clusterSlots() {
-        clusterService.slots();
-        return RuntimeContainer.getRetMessage();
+        return clusterService.slots();
     }
 
     @RequestMapping(value = "/nodes/info", method = RequestMethod.GET)
     public Object infos() {
-        clusterService.nodesInfo();
-        return RuntimeContainer.getRetMessage();
+        return clusterService.nodesInfo();
     }
 
     @RequestMapping(value = "/{node}/info", method = RequestMethod.GET)
     public Object info(@PathVariable("node") String node) {
-        clusterService.nodeInfo(node);
-        return RuntimeContainer.getRetMessage();
+        return clusterService.nodeInfo(node);
     }
 
     @RequestMapping(value = "/cluster/master", method = RequestMethod.GET)
     public Object clusterMaster() {
-        clusterService.activeMasters();
-        return RuntimeContainer.getRetMessage();
+        return clusterService.activeMasters();
     }
 }

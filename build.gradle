@@ -11,7 +11,6 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
 
 jar {
@@ -25,10 +24,32 @@ repositories {
 	mavenCentral()
 }
 
+def ver = "$baseVersion.$buildNumber"
+
+task zipDistribution(type: Zip, dependsOn: 'bootRepackage') {
+	version = "$baseVersion.$buildNumber"
+	def distDir = new File(project.buildDir, 'distributions')
+	if (!distDir.exists()) {
+		distDir.mkdirs()
+	}
+	from('src/main/dist') {
+		include("**/*")
+	}
+	from('src/main/resources') {
+		include('*.yml')
+	}
+	from("$buildDir/libs") {
+		include '*.jar'
+	}
+	into { "$baseName-$ver" }
+}
+
+
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
-	compile ('org.springframework.data:spring-data-redis')
+	compile("org.springframework.boot:spring-boot-devtools")
+	compile('org.springframework.data:spring-data-redis')
 	compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
