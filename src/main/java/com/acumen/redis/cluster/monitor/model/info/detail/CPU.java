@@ -1,40 +1,46 @@
 package com.acumen.redis.cluster.monitor.model.info.detail;
 
-public class CPU {
-    private String used_cpu_sys;
-    private String used_cpu_user;
-    private String used_cpu_sys_children;
-    private String used_cpu_user_children;
+import java.io.Serializable;
 
-    public String getUsed_cpu_sys() {
-        return used_cpu_sys;
+public class CPU implements Serializable {
+    private String usedCpuSys;
+    private String usedCpuUser;
+    private String usedCpuSysChildren;
+    private String usedCpuUserChildren;
+
+    public String getUsedCpuSys() {
+        return usedCpuSys;
     }
 
-    public void setUsed_cpu_sys(String used_cpu_sys) {
-        this.used_cpu_sys = used_cpu_sys;
+    public CPU setUsedCpuSys(String usedCpuSys) {
+        this.usedCpuSys = usedCpuSys;
+        return this;
     }
 
-    public String getUsed_cpu_user() {
-        return used_cpu_user;
+    public String getUsedCpuUser() {
+        return usedCpuUser;
     }
 
-    public void setUsed_cpu_user(String used_cpu_user) {
-        this.used_cpu_user = used_cpu_user;
+    public CPU setUsedCpuUser(String usedCpuUser) {
+        this.usedCpuUser = usedCpuUser;
+        return this;
     }
 
-    public String getUsed_cpu_sys_children() {
-        return used_cpu_sys_children;
+    public String getUsedCpuSysChildren() {
+        return usedCpuSysChildren;
     }
 
-    public void setUsed_cpu_sys_children(String used_cpu_sys_children) {
-        this.used_cpu_sys_children = used_cpu_sys_children;
+    public CPU setUsedCpuSysChildren(String usedCpuSysChildren) {
+        this.usedCpuSysChildren = usedCpuSysChildren;
+        return this;
     }
 
-    public String getUsed_cpu_user_children() {
-        return used_cpu_user_children;
+    public String getUsedCpuUserChildren() {
+        return usedCpuUserChildren;
     }
 
-    public void setUsed_cpu_user_children(String used_cpu_user_children) {
-        this.used_cpu_user_children = used_cpu_user_children;
+    public CPU setUsedCpuUserChildren(String usedCpuUserChildren) {
+        this.usedCpuUserChildren = usedCpuUserChildren;
+        return this;
     }
 }

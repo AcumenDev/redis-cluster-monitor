@@ -1,13 +1,16 @@
 package com.acumen.redis.cluster.monitor.model.info.detail;
 
-public class Cluster {
-    private String cluster_enabled;
+import java.io.Serializable;
 
-    public String getCluster_enabled() {
-        return cluster_enabled;
+public class Cluster implements Serializable {
+    private String clusterEnabled;
+
+    public String getClusterEnabled() {
+        return clusterEnabled;
     }
 
-    public void setCluster_enabled(String cluster_enabled) {
-        this.cluster_enabled = cluster_enabled;
+    public Cluster setClusterEnabled(String clusterEnabled) {
+        this.clusterEnabled = clusterEnabled;
+        return this;
     }
 }
