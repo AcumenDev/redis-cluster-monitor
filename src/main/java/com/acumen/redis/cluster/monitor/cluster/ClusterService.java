@@ -23,4 +23,6 @@ public interface ClusterService {
     Map<String, Info> nodesInfo();
 
     Info nodeInfo(String node);
+
+    String executeCommand(String command);
 }

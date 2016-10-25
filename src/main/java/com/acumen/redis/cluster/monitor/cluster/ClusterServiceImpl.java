@@ -42,7 +42,7 @@ public class ClusterServiceImpl implements ClusterService {
         Set<RedisClusterNode> clusterNodes = clusterConnection.clusterGetNodes();
         logger.info(clusterNodes);
         Set<Slot> slots = AppConverters.toSetOfSlot().convert(clusterNodes);
-      return slots;
+        return slots;
     }
 
     @Override
@@ -66,14 +66,21 @@ public class ClusterServiceImpl implements ClusterService {
             infos.put(String.valueOf(key), info);
         }
 
-       return infos;
+        return infos;
     }
 
     @Override
     public Info nodeInfo(String node) {
         Properties prop = clusterConnection.info(create(node));
-        Info info = AppConverters.toInfo().convert(prop);
-        return info;
+        return AppConverters.toInfo().convert(prop);
+    }
+
+    @Override
+    public String executeCommand(String command) {
+
+        clusterConnection.execute(command);
+        return null;
+
     }
 
     @Override

@@ -41,4 +41,9 @@ public class ClusterController {
     public Object clusterMaster() {
         return clusterService.activeMasters();
     }
+
+    @RequestMapping(value = "/cluster/executeCommand", method = RequestMethod.POST)
+    public Object executeCommand(String command) {
+        return clusterService.executeCommand(command);
+    }
 }
