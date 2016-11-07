@@ -12,9 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.ClusterInfo;
 import org.springframework.data.redis.connection.RedisClusterNode;
 import org.springframework.data.redis.connection.jedis.JedisClusterConnection;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.nio.charset.Charset;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author fczheng
@@ -27,6 +31,8 @@ public class ClusterServiceImpl implements ClusterService {
         System.setProperty("line.separator", "\n");
     }
 
+    @Autowired
+    RedisTemplate redisTemplate;
     @Autowired
     JedisClusterConnection clusterConnection;
 
@@ -71,16 +77,28 @@ public class ClusterServiceImpl implements ClusterService {
 
     @Override
     public Info nodeInfo(String node) {
-        Properties prop = clusterConnection.info(create(node));
+        Properties prop = clusterConnection.info(buildFromHostAndPort(node));
         return AppConverters.toInfo().convert(prop);
     }
 
     @Override
     public String executeCommand(String command) {
+        //  redisTemplate.keys()       //  redisTemplate.keys()
+clusterConnection.sScan()
+     //   clusterConnection.execute(command);
+        return   getKeys(command);
 
-        clusterConnection.execute(command);
-        return null;
+    }
 
+    private List<String> getKeys(String node) {
+        List<String> keys;
+        if (StringUtils.isEmpty(node)) {
+            keys = clusterConnection.keys("*".getBytes()).stream().map(bytes -> new String(bytes, Charset.defaultCharset())).collect(Collectors.toList());
+        } else {
+            RedisClusterNode clusterNode = buildFromHostAndPort(node);
+            keys = clusterConnection.keys(clusterNode, "*".getBytes()).stream().map(bytes -> new String(bytes, Charset.defaultCharset())).collect(Collectors.toList());
+        }
+        return keys;
     }
 
     @Override
@@ -91,7 +109,7 @@ public class ClusterServiceImpl implements ClusterService {
         return nodes;
     }
 
-    private RedisClusterNode create(String node) {
+    private RedisClusterNode buildFromHostAndPort(String node) {
         String[] hostAndPort = node.split(":");
         return new RedisClusterNode(hostAndPort[0], Integer.parseInt(hostAndPort[1]), null);
     }
