@@ -5,10 +5,12 @@ import com.acumen.redis.cluster.monitor.model.Nodes;
 import com.acumen.redis.cluster.monitor.model.cluster.node.Node;
 import com.acumen.redis.cluster.monitor.model.cluster.slot.Slot;
 import com.acumen.redis.cluster.monitor.model.info.Info;
+import com.acumen.redis.cluster.monitor.util.JsonUtils;
 import com.acumen.redis.cluster.monitor.util.convert.AppConverters;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.connection.ClusterInfo;
 import org.springframework.data.redis.connection.RedisClusterNode;
 import org.springframework.data.redis.connection.jedis.JedisClusterConnection;
@@ -25,7 +27,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class ClusterServiceImpl implements ClusterService {
-    private static final Log logger = LogFactory.getLog(ClusterServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(ClusterServiceImpl.class);
 
     static {
         System.setProperty("line.separator", "\n");
@@ -37,32 +39,36 @@ public class ClusterServiceImpl implements ClusterService {
     JedisClusterConnection clusterConnection;
 
     @Override
+   // @Cacheable(value = "info", unless = "#result == null")
     public ClusterInfo info() {
         ClusterInfo info = clusterConnection.clusterGetClusterInfo();
-        logger.info(info);
+        logger.debug("Получение общей информации о кластере: {}", JsonUtils.dump(info));
         return info;
     }
 
     @Override
+    @Cacheable(value = "slots", unless = "#result == null")
     public Set<Slot> slots() {
         Set<RedisClusterNode> clusterNodes = clusterConnection.clusterGetNodes();
-        logger.info(clusterNodes);
+        logger.debug(JsonUtils.dump(clusterNodes));
         Set<Slot> slots = AppConverters.toSetOfSlot().convert(clusterNodes);
         return slots;
     }
 
     @Override
+    @Cacheable(value = "nodes", unless = "#result == null")
     public Nodes nodes() {
         Set<RedisClusterNode> clusterNodes = clusterConnection.clusterGetNodes();
-        logger.info(sortNodes(clusterNodes));
+        logger.debug("Получение нодов: {}", JsonUtils.dump(sortNodes(clusterNodes)));
         return new Nodes().setNodes(sortNodes(clusterNodes));
     }
 
     @Override
+    @Cacheable(value = "nodesInfo", unless = "#result == null")
     public Map<String, Info> nodesInfo() {
         Map<String, Info> infos = new HashMap<String, Info>();
         Properties prop = clusterConnection.info();
-        logger.info(prop);
+        logger.debug("Получение информации по нодам : {}", JsonUtils.dump(prop));
 
         Enumeration<Object> keys = prop.keys();
         while (keys.hasMoreElements()) {
@@ -76,6 +82,7 @@ public class ClusterServiceImpl implements ClusterService {
     }
 
     @Override
+    @Cacheable(value = "nodeInfo", unless = "#result == null")
     public Info nodeInfo(String node) {
         Properties prop = clusterConnection.info(buildFromHostAndPort(node));
         return AppConverters.toInfo().convert(prop);
@@ -105,7 +112,7 @@ clusterConnection.sScan()
     public Set<Node> activeMasters() {
         Set<RedisClusterNode> clusterNodes = clusterConnection.clusterGetNodes();
         Set<Node> nodes = AppConverters.toSetOfNode().convert(getActiveMasterNodes(clusterNodes));
-        logger.info(nodes);
+        logger.debug("Получение мастеров: {}", JsonUtils.dump(nodes));
         return nodes;
     }
 

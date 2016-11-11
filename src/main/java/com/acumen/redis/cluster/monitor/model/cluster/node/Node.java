@@ -3,7 +3,9 @@ package com.acumen.redis.cluster.monitor.model.cluster.node;
 import org.springframework.data.redis.connection.RedisClusterNode;
 import org.springframework.data.redis.connection.RedisNode.NodeType;
 
-public class Node {
+import java.io.Serializable;
+
+public class Node implements Serializable {
     private String id;
     private String host;
     private int port;
