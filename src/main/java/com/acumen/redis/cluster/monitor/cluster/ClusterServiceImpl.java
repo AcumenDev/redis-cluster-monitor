@@ -2,16 +2,16 @@ package com.acumen.redis.cluster.monitor.cluster;
 
 
 import com.acumen.redis.cluster.monitor.model.Nodes;
+import com.acumen.redis.cluster.monitor.model.RedisClusterInfo;
 import com.acumen.redis.cluster.monitor.model.cluster.node.Node;
 import com.acumen.redis.cluster.monitor.model.cluster.slot.Slot;
 import com.acumen.redis.cluster.monitor.model.info.Info;
 import com.acumen.redis.cluster.monitor.util.JsonUtils;
 import com.acumen.redis.cluster.monitor.util.convert.AppConverters;
+import com.acumen.redis.cluster.monitor.util.convert.ClusterInfoToRedisClusterInfoConvert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.redis.connection.ClusterInfo;
 import org.springframework.data.redis.connection.RedisClusterNode;
 import org.springframework.data.redis.connection.jedis.JedisClusterConnection;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -33,15 +33,22 @@ public class ClusterServiceImpl implements ClusterService {
         System.setProperty("line.separator", "\n");
     }
 
-    @Autowired
+
     RedisTemplate redisTemplate;
-    @Autowired
     JedisClusterConnection clusterConnection;
+    ClusterInfoToRedisClusterInfoConvert redisClusterInfoConvert;
+
+
+    public ClusterServiceImpl(RedisTemplate redisTemplate, JedisClusterConnection clusterConnection, ClusterInfoToRedisClusterInfoConvert redisClusterInfoConvert) {
+        this.redisTemplate = redisTemplate;
+        this.clusterConnection = clusterConnection;
+        this.redisClusterInfoConvert = redisClusterInfoConvert;
+    }
 
     @Override
-   // @Cacheable(value = "info", unless = "#result == null")
-    public ClusterInfo info() {
-        ClusterInfo info = clusterConnection.clusterGetClusterInfo();
+    @Cacheable(value = "info", unless = "#result == null")
+    public RedisClusterInfo info() {
+        RedisClusterInfo info = redisClusterInfoConvert.convert(clusterConnection.clusterGetClusterInfo());
         logger.debug("Получение общей информации о кластере: {}", JsonUtils.dump(info));
         return info;
     }
@@ -91,9 +98,9 @@ public class ClusterServiceImpl implements ClusterService {
     @Override
     public String executeCommand(String command) {
         //  redisTemplate.keys()       //  redisTemplate.keys()
-clusterConnection.sScan()
-     //   clusterConnection.execute(command);
-        return   getKeys(command);
+//clusterConnection.sScan()
+        //   clusterConnection.execute(command);
+        return "";  //getKeys(command);
 
     }
 

@@ -1,6 +1,7 @@
 package com.acumen.redis.cluster.monitor.controller;
 
 import com.acumen.redis.cluster.monitor.cluster.ClusterService;
+import com.acumen.redis.cluster.monitor.model.RedisClusterInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +14,7 @@ public class ClusterController {
     private ClusterService clusterService;
 
     @RequestMapping(value = "/cluster/info", method = RequestMethod.GET)
-    public Object clusterInfo() {
+    public RedisClusterInfo clusterInfo() {
         return clusterService.info();
     }
 

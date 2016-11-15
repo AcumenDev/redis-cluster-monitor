@@ -11,8 +11,7 @@ spring:
       max-redirects: 8
 server.port: 8081
 
-spring.cache.cache-names: info,nodes
-spring.cache.guava.spec: maximumSize=100,expireAfterWrite=300s
+
 
 #logging.level.root: WARN
 logging.level.com.acumen: DEBUG
