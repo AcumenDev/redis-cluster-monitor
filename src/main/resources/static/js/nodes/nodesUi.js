@@ -15,7 +15,7 @@ var nodesUi = {
 
     refreshInfo: function () {
         nodesUi.loadNode();
-        setTimeout(nodesUi.refreshInfo, 1000);
+        setTimeout(nodesUi.refreshInfo, 20000);
     },
 
     getSelectNode: function () {

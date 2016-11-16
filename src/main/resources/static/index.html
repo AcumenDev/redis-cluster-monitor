@@ -28,12 +28,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="" class="navbar-brand" id="clusterNav">Redis Cluster</a>
+                <a href="index.html" class="navbar-brand" id="clusterNav">Redis Cluster</a>
             </div>
             <div class="collapse navbar-collapse" id="example-nav-collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="nodes.html" id="nodeNav">Node</a></li>
-                    <li><a href="pages/ExecuteCommand.html" id="cmdNav" >Cmd</a></li>
+                <!--    <li><a href="pages/ExecuteCommand.html" id="cmdNav">Cmd</a></li>-->
+                    <li><a href="pages/keys/keys.html" id="keys">Keys</a></li>
                     <!--<li><a href="#" id="chartNav">Chart</a></li>-->
                     <!--<li><a href="#" id="cmdNav">Cmd</a></li>-->
                 </ul>
@@ -111,7 +112,7 @@
             <table class="table table-hover table-info">
                 <tr>
                     <th>nodeType</th>
-                    <th>host</th>
+                    <th>name</th>
                     <th>port</th>
                     <th>slotRange</th>
                     <th>master</th>
@@ -121,7 +122,7 @@
                 {{#each nodes}}
                 <tr class="nodeData">
                     <td class="type">{{type}}</td>
-                    <td class="host">{{host}}</td>
+                    <td class="name">{{name}}</td>
                     <td class="port">{{port}}</td>
                     <td class="range">{{range}}</td>
                     <td class="masterHostPort">{{masterHostPort}}</td>

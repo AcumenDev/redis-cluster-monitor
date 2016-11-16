@@ -15,8 +15,8 @@ import java.util.concurrent.TimeUnit;
 public class MainConfig {
     @Bean
     public CacheManager cacheManager() {
-        GuavaCacheManager guavaCacheManager = new GuavaCacheManager("info", "slots");
-        guavaCacheManager.setCacheBuilder(CacheBuilder.newBuilder().expireAfterWrite(300, TimeUnit.SECONDS));
+        GuavaCacheManager guavaCacheManager = new GuavaCacheManager("info", "slots","nodes","nodesInfo","nodeInfo");
+        guavaCacheManager.setCacheBuilder(CacheBuilder.newBuilder().expireAfterWrite(20, TimeUnit.SECONDS));
         return guavaCacheManager;
     }
 }

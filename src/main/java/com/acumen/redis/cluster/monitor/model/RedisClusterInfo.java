@@ -6,28 +6,16 @@ import java.io.Serializable;
  * Created by vladimir akummail@gmail.com on 11/15/16.
  */
 public class RedisClusterInfo implements Serializable {
-   // private static final long serialVersionUID = -1696488776637339227L;
-   // @JsonProperty("cluster_state")
     private String state;
-  //  @JsonProperty("cluster_slots_assigned")
     private Long slotsAssigned;
-   // @JsonProperty("cluster_slots_ok")
     private Long slotsOk;
-   /// @JsonProperty("cluster_slots_pfail")
     private Long slotsPfail;
-   // @JsonProperty("cluster_slots_fail")
     private Long slotsFail;
-   /// @JsonProperty("cluster_known_nodes")
     private Long knownNodes;
-   /// @JsonProperty("cluster_size")
     private Long clusterSize;
-   /// @JsonProperty("cluster_current_epoch")
     private Long currentEpoch;
-   /// @JsonProperty("cluster_my_epoch")
     private Long myEpoch;
-   // @JsonProperty("cluster_stats_messages_sent")
     private Long messagesSent;
-   /// @JsonProperty("cluster_stats_messages_received")
     private Long messagesReceived;
 
     public String getState() {

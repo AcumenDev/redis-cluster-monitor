@@ -7,7 +7,7 @@ $(function () {
     function refreshInfo() {
         loadInfo();
         loadNodes();
-        setTimeout(refreshInfo, 5000);
+        setTimeout(refreshInfo, 20000);
     }
 
     function loadInfo() {
